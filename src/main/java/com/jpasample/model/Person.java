@@ -1,5 +1,7 @@
 package com.jpasample.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.*;
 import javax.persistence.*;
 
@@ -26,11 +28,12 @@ public class Person {
         //cats.add(new Cat("?",1f, this));
     }
 
-    @OneToMany(mappedBy="owner"/*, fetch = FetchType.EAGER*/, cascade={CascadeType.ALL, /*CascadeType.PERSIST*/}) // НОВЫХ элементов в БД обратная сторона связи не добавляет!
+    @OneToMany(mappedBy="owner", fetch = FetchType.EAGER, cascade={CascadeType.ALL, /*CascadeType.PERSIST*/}) // НОВЫХ элементов в БД обратная сторона связи не добавляет!
     //@OneToMany // осторожно - это независимая связь, а не другой конец @ManyToOne! порождает доп. таблицу
     //   private Set<Cat> cats = new HashSet<Cat>(); // без номера и порядка!
     //@OrderBy(value="name desc")
     //@Transient
+    @JsonIgnore
     private List<Cat> cats = new ArrayList<Cat>();     // c номером и порядком
     
     //private Set<Cat> cats = new HashSet<Cat>();     // без номера и порядка!

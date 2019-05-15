@@ -9,6 +9,107 @@
         
         <ul>
             <li><a href="list.do"/>Просмотр</a></li>
+
         </ul>
+
+
+        <button onclick="allcats()">allCats</button>
+        <button onclick="add()">Add</button>
+        <button onclick="remove()">Remove</button>
+        <button onclick="change()">Change</button>
+        <button onclick="addCat()">addCat</button>
+        <ul id="lst"></ul>
+        <table id= "cattable" border="1"> </table>
+        <script>
+            function allcats() {
+                // p.innerHTML = 'Hello' +(u.children.length+1);
+                // u.appendChild( p )
+                fetch('http://localhost:8090/JPAsample_war_exploded/api/allcats/')
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(myJson) {
+                        var u = document.getElementById('cattable');
+                        var p = document.createElement("tr")
+                        //p.innerHTML = myJson.length + JSON.stringify(myJson[0].name);
+                        //u.appendChild( p );
+                        //document.write('<table border="1" >')
+                        //document.write('<tr> <th>id</th> <th>name</th> <th>birthdate</th> <th>weight</th> <th>owner.id</th> </tr>')
+                        p.innerHTML=`<th>id</th> <th>name</th> <th>weight</th> <th> del</th>`
+                        u.appendChild( p )
+                        for (var i = 0; i < myJson.length; i++) {
+                            console.log(myJson[i])
+                            var p = document.createElement("tr")
+                            //var tr = "<tr>";
+                           //tr.innerHtml=`<td>${..}</td><td>${..}</td>…..</tr>`).
+                            p.innerHTML=`<td>${myJson[i].id}</td><td>${myJson[i].name}</td><td>${myJson[i].weight}</td><td><button onclick="deleteCat(${myJson[i].id})">X</button></td>`
+                            console.log(p.innerHtml)
+                            //document.write(tr);
+                            u.appendChild( p )
+                        }
+                        //document.write('</table>')
+                    });
+            }
+
+            function add() {
+                var u = document.getElementById('lst');
+                var p = document.createElement("li")
+                p.innerHTML = 'Hello' +(u.children.length+1);
+                u.appendChild( p )
+                fetch('http://localhost:8090/JPAsample_war_exploded/api/person/json/' +(u.children.length))
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(myJson) {
+                        p.innerHTML = JSON.stringify(myJson);
+                        u.appendChild( p )
+                    });
+            }
+            function deleteCat(id) {
+                //var u = document.getElementById('lst');
+               // var p = document.createElement("li")
+                //p.innerHTML = 'Hello' +(u.children.length+1);
+               // u.appendChild( p )
+                //cat/{id}
+                fetch('http://localhost:8090/JPAsample_war_exploded/api/cat/'+id, {method: 'DELETE'}).catch(function(err) {alert(err);})
+                /*
+                                    .then(function(response) {
+                                        return responsjson();
+                                    })/*
+                                    .then(function(myJson) {
+                                        p.innerHTML = JSON.stringify(myJson);
+                                        u.appendChild( p )
+                                    });
+                */
+            }
+
+            function change() {
+                var p = document.querySelectorAll('#lst > li:nth-child(2)')
+                if (p) {
+                    console.log(p[0])
+                    p[0].innerHTML = p[0].innerHTML + '!'
+                }
+            }
+            function remove() {
+                var p = document.querySelectorAll('#lst > li:last-child')
+                console.log(p[0])
+                p[0].remove()
+            }
+
+            function addCat() {
+                var data={id:0, name:"TheCat", weight: 5.0} <!-- id:0 важен, иначе на сервере будет ошибка при em.persist -->
+                fetch('http://localhost:8090/JPAsample_war_exploded/api/cat',
+                    {
+                        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                        headers: {'Content-Type': 'application/json',},
+                        body: JSON.stringify(data) // объект
+                    }
+                ).catch(function(err) {
+                    alert(err);
+                })
+            }
+
+
+        </script>
     </body>
 </html>

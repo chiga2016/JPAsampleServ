@@ -1,5 +1,7 @@
 package com.jpasample.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +27,7 @@ public class Cat {
 
     //  @Transient
     @ManyToOne(cascade={CascadeType.ALL/*CascadeType.PERSIST*/})
+    @JsonIgnore
     private Person owner;
 
     public Person getOwner() {

@@ -9,6 +9,8 @@
         <link href="<c:url value='/main.css'/>" rel="stylesheet" type="text/css">
     </head>
     <body>
+
+    <a href="index.html">Главная</a>  <a href="api/allcats">Все коты</a>    <a href="api/allpersons">Все персоны</a>
         <ul>
             <li><a href="init.do"/>Заполнить заново</a></li>
             <li><a href="addcat.do"/>Добавить кошку</a></li>

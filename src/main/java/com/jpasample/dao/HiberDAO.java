@@ -37,6 +37,19 @@ public class HiberDAO {
         lastStatus = "Кошка добавлена!";
         return c;
     }
+
+    @Transactional
+    public Cat addCat(Cat c) {
+        // 1--EntityManager em = emf.createEntityManager();
+        //Cat c = new Cat();
+        // 1--em.getTransaction().begin();
+       //c.setName("Cat"+r.nextInt(100));
+       // c.setWeight(1.0f+r.nextInt(40)/10.0f);
+        em.persist(c);
+        // 1--em.getTransaction().commit();
+        lastStatus = "Кошка добавлена!";
+        return c;
+    }
     
     public List<Cat> getAllCats() {
        // 1-- EntityManager em = emf.createEntityManager();
@@ -47,11 +60,11 @@ public class HiberDAO {
     @Transactional
     public List<Person> getAllPersons() {
         // 1--EntityManager em = emf.createEntityManager();
-        //2--  List<Person> res = em.createQuery("select p from Person p",Person.class).getResultList();
-         List<Person> res = em.createQuery("select p from Person p LEFT JOIN FETCH p.cats",Person.class).getResultList();
-//        for (Person p: res ) {
-//            p.getCats().size();
-//        }
+          List<Person> res = em.createQuery("select p from Person p",Person.class).getResultList();
+       //  List<Person> res = em.createQuery("select p from Person p LEFT JOIN FETCH p.cats",Person.class).getResultList();
+        for (Person p: res ) {
+            p.getCats().size();
+        }
 
 
         return res;
@@ -126,6 +139,20 @@ public class HiberDAO {
        // EntityManager em = emf.createEntityManager();
        // Cat res = em.createQuery("select c from Cat c where c.id=:paramName ",Cat.class).getSingleResult();
        // Query query = session.createQuery("from ContactEntity where firstName = :paramName");
+        return res;
+    }
+
+    @Transactional
+    public Person findPerson(long i) {
+        // 1--EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("select c from Person c where c.id=:paramName ");
+        query.setParameter("paramName", i);
+        Person res = (Person)query.getSingleResult();
+        //resultList.forEach(System.out::println);
+        // em.close();
+        // EntityManager em = emf.createEntityManager();
+        // Cat res = em.createQuery("select c from Cat c where c.id=:paramName ",Cat.class).getSingleResult();
+        // Query query = session.createQuery("from ContactEntity where firstName = :paramName");
         return res;
     }
 
